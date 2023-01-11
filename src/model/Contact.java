@@ -2,11 +2,11 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+// import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,28 +15,42 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Contact {
-    private static final String SEPARATEUR = ";";
-
-    private String nom;
-    private String prenom;
+    private static final String SEPARATEUR = "  ;   ";
+    private static Integer id;
+    private static String nom;
+    private static String prenom;
     private String mail;
     private String telephone;
     private Date dateNaissance;
 
-    public String getNom() {
+    public Contact(Integer id, String nom, String prenom, String mail, String telephone, Date dateNaissance) {
+        Contact.id = id;
+        Contact.nom = nom;
+        Contact.prenom = prenom;
+        this.mail = mail;
+        this.telephone = telephone;
+        this.dateNaissance = dateNaissance;
+    }
+    public static Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        Contact.id = id;
+    }
+    public static String getNom() {
         return nom;
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+        Contact.nom = nom;
     }
 
-    public String getPrenom() {
+    public static String getPrenom() {
         return prenom;
     }
 
     public void setPrenom(String prenom) {
-        this.prenom = prenom;
+        Contact.prenom = prenom;
     }
 
     public String getMail() {
@@ -80,47 +94,50 @@ public class Contact {
     }
 
     public void enregistrer() throws IOException {
-        /*
-         * PrintWriter pw = new PrintWriter(new BufferedWriter(new
-         * FileWriter("contacts.csv", true)));
-         * try {
-         * pw.println(this.toString());
-         * } finally {
-         * pw.close();
-         * }
-         */
-
-        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", true)))) {
-            pw2.println(this.toString());
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", true)));
+        try {
+            pw.println(this.toString());
+        } finally {
+            pw.close();
         }
-
     }
 
-    public static ArrayList<Contact> lister() throws FileNotFoundException, IOException, ParseException {
+   
+
+    /**
+     * @return
+     */
+    public static ArrayList<Contact> lister() {
         ArrayList<Contact> list = new ArrayList<>();
-        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
-            String ligne = buf.readLine();
-            while (ligne != null) {
-                String[] tab = ligne.split(SEPARATEUR);
-                Contact c = new Contact();
-                c.setNom(tab[0]);
-                c.setPrenom(tab[1]);
-                c.setMail(tab[2]);
-                c.setTelephone(tab[3]);
-                c.setDateNaissance(tab[4]);
-                list.add(c);
-                ligne = buf.readLine();
+        try {
+            FileReader fileReader = new FileReader("contacts.csv");
+            BufferedReader buf = new BufferedReader(fileReader);
+            String line = buf.readLine();
+            while((line = buf.readLine()) != null) {
+                String[] data = line.split(";");
+                if(data.length == 5){
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = dateFormat.parse(data[4]);
+                    Contact contact = new Contact(id, data[1], data[2], data[3], data[4],date);
+                    list.add(contact);
+                    line = buf.readLine();
+                }
             }
+            buf.close();
+            fileReader.close();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
         }
         return list;
     }
-
     @Override
     public String toString() {
         StringBuilder build = new StringBuilder();
-        build.append(this.getNom());
+        build.append(Contact.getId());
         build.append(SEPARATEUR);
-        build.append(this.getPrenom());
+        build.append(Contact.getNom());
+        build.append(SEPARATEUR);
+        build.append(Contact.getPrenom());
         build.append(SEPARATEUR);
         build.append(this.getMail());
         build.append(SEPARATEUR);
