@@ -158,4 +158,8 @@ public class Contact {
         return build.toString();
     }
 
+    public static ArrayList<Contact> rechercher(String prenom2) {
+        return null;
+    }
+
 }

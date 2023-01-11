@@ -23,9 +23,12 @@ public class App {
                     listerContacts();
                     break;
                 case "3":
-                    //modifierContact();
+                    rechercherContact();
                     break;
                 case "4":
+                    //modifierContact();
+                    break;
+                case "5":
                     supprimerContact();
                     break;
                 case "q":
@@ -90,14 +93,27 @@ public class App {
         System.out.println("Contact enregistré");
 
     }
+    private static void rechercherContact() {
+        System.out.println("Saisir le prénom");
+        String prenom = _scan.nextLine();
+        try {
+            ArrayList<Contact> list = Contact.rechercher(prenom);
+            for (Contact contact : list) {
+                System.out.println(contact.getNom() + " " + contact.getPrenom());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Ajouter un contact");
         menus.add("2- Lister les contacts");
-        menus.add("3- Modifier un contact");
-        menus.add("4- Supprimer un contact");
+        menus.add("3- Recherche contact");
+        menus.add("4- Modifier un contact");
+        menus.add("5- Supprimer un contact");
         menus.add("q- Quitter");
         for (String menu : menus) {
             System.out.println(menu);
