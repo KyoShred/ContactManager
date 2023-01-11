@@ -114,7 +114,6 @@ public class App {
                 try {
                     contact.supprimer();
                 } catch (ParseException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 System.out.println("Contact supprimé");
@@ -123,4 +122,5 @@ public class App {
         }
         System.out.println("Contact non trouvé");
     }
+    
 }
