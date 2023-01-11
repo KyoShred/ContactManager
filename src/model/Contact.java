@@ -114,6 +114,16 @@ public class Contact {
         }
         return list;
     }
+    public static void supprimer(String nom, String prenom) throws FileNotFoundException, IOException {
+        ArrayList<Contact> list = new ArrayList<>();
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (Contact c : list) {
+                if (!c.getNom().equals(nom) || !c.getPrenom().equals(prenom)) {
+                    pw.println(c.toString());
+                }
+            }
+        }
+    }
 
     @Override
     public String toString() {

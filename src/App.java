@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -20,6 +21,12 @@ public class App {
                     break;
                 case "2":
                     listerContacts();
+                    break;
+                case "3":
+                    //modifierContact();
+                    break;
+                case "4":
+                    supprimerContact();
                     break;
                 case "q":
                     return;
@@ -95,5 +102,12 @@ public class App {
         for (String menu : menus) {
             System.out.println(menu);
         }
+    }
+    private static void supprimerContact() throws FileNotFoundException, IOException {
+        System.out.println("Saisir le nom du contact à supprimer");
+        String nom = _scan.nextLine();
+        System.out.println("Saisir le prénom du contact à supprimer");
+        String prenom = _scan.nextLine();
+        Contact.supprimer(nom, prenom);
     }
 }
