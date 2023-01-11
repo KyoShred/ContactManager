@@ -103,11 +103,24 @@ public class App {
             System.out.println(menu);
         }
     }
-    private static void supprimerContact() throws FileNotFoundException, IOException {
+    private static void supprimerContact() throws IOException, ParseException {
         System.out.println("Saisir le nom du contact à supprimer");
         String nom = _scan.nextLine();
         System.out.println("Saisir le prénom du contact à supprimer");
         String prenom = _scan.nextLine();
-        Contact.supprimer(nom, prenom);
+        ArrayList<Contact> list = Contact.lister();
+        for (Contact contact : list) {
+            if (contact.getNom().equals(nom) && contact.getPrenom().equals(prenom)) {
+                try {
+                    contact.supprimer();
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println("Contact supprimé");
+                return;
+            }
+        }
+        System.out.println("Contact non trouvé");
     }
 }
