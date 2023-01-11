@@ -23,9 +23,12 @@ public class App {
                     listerContacts();
                     break;
                 case "3":
-                    //modifierContact();
+                    rechercherContact();
                     break;
                 case "4":
+                    // modifierContact();
+                    break;
+                case "5":
                     supprimerContact();
                     break;
                 case "q":
@@ -91,23 +94,50 @@ public class App {
 
     }
 
+    private static void rechercherContact() {
+        System.out.println("Saisir le prénom");
+        String prenom = _scan.nextLine();
+        try {
+            ArrayList<Contact> list = Contact.rechercher(prenom);
+            for (Contact contact : list) {
+                System.out.println(contact.getNom() + " " + contact.getPrenom());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Ajouter un contact");
         menus.add("2- Lister les contacts");
-        menus.add("3- Modifier un contact");
-        menus.add("4- Supprimer un contact");
+        menus.add("3- Rercherche par prénom");
+        menus.add("4- Modifier un contact");
+        menus.add("5- Supprimer un contact");
         menus.add("q- Quitter");
         for (String menu : menus) {
             System.out.println(menu);
         }
     }
-    private static void supprimerContact() throws FileNotFoundException, IOException {
+
+    private static void supprimerContact() throws IOException, ParseException {
         System.out.println("Saisir le nom du contact à supprimer");
         String nom = _scan.nextLine();
         System.out.println("Saisir le prénom du contact à supprimer");
         String prenom = _scan.nextLine();
-        Contact.supprimer(nom, prenom);
+        ArrayList<Contact> list = Contact.lister();
+        for (Contact contact : list) {
+            if (contact.getNom().equals(nom) && contact.getPrenom().equals(prenom)) {
+                try {
+                    contact.supprimer();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Contact supprimé");
+                return;
+            }
+        }
+        System.out.println("Contact non trouvé");
     }
 }

@@ -114,16 +114,34 @@ public class Contact {
         }
         return list;
     }
-    public static void supprimer(String nom, String prenom) throws FileNotFoundException, IOException {
+    public void supprimer() throws FileNotFoundException, IOException, ParseException {
         ArrayList<Contact> list = new ArrayList<>();
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
-            for (Contact c : list) {
-                if (!c.getNom().equals(nom) || !c.getPrenom().equals(prenom)) {
-                    pw.println(c.toString());
-                }
+        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
+            String ligne = buf.readLine();
+            while (ligne != null) {
+                String[] tab = ligne.split(SEPARATEUR);
+                Contact c = new Contact();
+                c.setNom(tab[0]);
+                c.setPrenom(tab[1]);
+                c.setMail(tab[2]);
+                c.setTelephone(tab[3]);
+                c.setDateNaissance(tab[4]);
+                list.add(c);
+                ligne = buf.readLine();
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getNom().equals(this.getNom()) && list.get(i).getPrenom().equals(this.getPrenom())) {
+                list.remove(i);
+            }
+        }
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (int i = 0; i < list.size(); i++) {
+                pw2.println(list.get(i).toString());
             }
         }
     }
+
 
     @Override
     public String toString() {
@@ -138,6 +156,10 @@ public class Contact {
         build.append(SEPARATEUR);
         build.append(this.getDateNaissance());
         return build.toString();
+    }
+
+    public static ArrayList<Contact> rechercher(String prenom2) {
+        return null;
     }
 
 }
