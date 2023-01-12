@@ -156,5 +156,26 @@ public class App {
         }
         System.out.println("Contact non trouvé");
     }
+    
+    private static void trierDate(){
+        ArrayList<Contact> list;
+        try {
+            list = Contact.lister();
+            Collections.sort(list, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact o1, Contact o2) {
+                    return o1.getDateNaissance().compareTo(o2.getDateNaissance());
+                }
+            });
+            for (Contact contact : list) {
+                System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getDateNaissance());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        
+        
+    }
+    
+    }
 
 }
