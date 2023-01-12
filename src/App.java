@@ -2,8 +2,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import model.Contact;
 
@@ -27,7 +29,7 @@ public class App {
                     rechercherContact();
                     break;
                 case "4":
-                    //modifierContact();
+                    // modifierContact();
                     break;
                 case "5":
                     supprimerContact();
@@ -49,17 +51,23 @@ public class App {
             switch (choix) {
                 case "1":
                     Contact.sortByNameAndFirstName(list);
+                    for (Contact contact : list) {
+                        System.out.println(contact.getNom() + " " + contact.getPrenom());
+                    }
                     break;
                 case "2":
                     Contact.sortByEmail(list);
+                    for (Contact contact : list){
+                        System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getMail());
+                    }
                     break;
                 case "3":
                     trierDate();
+                    for (Contact contact : list) {
+                        System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getDateNaissance());
+                    }
                     break;
-            }
-            for (Contact contact : list) {
-                System.out.println(contact.getNom() + " " + contact.getPrenom());
-            }
+            }     
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -157,8 +165,8 @@ public class App {
         }
         System.out.println("Contact non trouvé");
     }
-    
-    private static void trierDate(){
+
+    private static void trierDate() {
         ArrayList<Contact> list;
         try {
             list = Contact.lister();
@@ -168,15 +176,9 @@ public class App {
                     return o1.getDateNaissance().compareTo(o2.getDateNaissance());
                 }
             });
-            for (Contact contact : list) {
-                System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getDateNaissance());
-            }
         } catch (Exception e) {
-            e.printStackTrace();
-        
-        
-    }
-    
+        }
+
     }
 
 }
