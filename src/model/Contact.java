@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,6 +115,25 @@ public class Contact {
         }
         return list;
     }
+
+    public int compareTo(Contact contact2) {
+        int comp = getNom().compareTo(contact2.getNom());
+        if (comp == 0) {
+            comp = getPrenom().compareTo(contact2.getPrenom());
+        }
+        return comp;
+    }
+
+    public static void sortByNameAndFirstName(ArrayList<Contact> contacts) {
+        Collections.sort(contacts, (contact1, contact2) -> {
+            int comp = contact1.getNom().compareTo(contact2.getNom());
+            if (comp == 0) {
+                comp = contact1.getPrenom().compareTo(contact2.getPrenom());
+            }
+            return comp;
+        });
+    }
+
     public void supprimer() throws FileNotFoundException, IOException, ParseException {
         ArrayList<Contact> list = new ArrayList<>();
         try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
@@ -141,6 +161,7 @@ public class Contact {
             }
         }
     }
+
     @Override
     public String toString() {
         StringBuilder build = new StringBuilder();
