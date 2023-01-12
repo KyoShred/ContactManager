@@ -141,8 +141,6 @@ public class Contact {
             }
         }
     }
-
-
     @Override
     public String toString() {
         StringBuilder build = new StringBuilder();

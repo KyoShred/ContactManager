@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import model.Contact;
 
@@ -93,16 +94,19 @@ public class App {
         System.out.println("Contact enregistré");
 
     }
-    private static void rechercherContact() {
+    private static void rechercherContact() throws FileNotFoundException, IOException, ParseException {
         System.out.println("Saisir le prénom");
         String prenom = _scan.nextLine();
-        try {
-            ArrayList<Contact> list = Contact.rechercher(prenom);
-            for (Contact contact : list) {
-                System.out.println(contact.getNom() + " " + contact.getPrenom());
+        ArrayList<Contact> list = Contact.lister();
+        ArrayList<Contact> filteredList = (ArrayList<Contact>) list.stream()
+                                .filter(c -> c.getPrenom().toLowerCase().contains(prenom.toLowerCase()))
+                                .collect(Collectors.toList());
+        if(filteredList.isEmpty()){
+            System.out.println("Aucun contact trouvé avec ce prénom");
+        }else{
+            for (Contact contact : filteredList) {
+                System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " " + contact.getMail());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
