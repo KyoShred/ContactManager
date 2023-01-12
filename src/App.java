@@ -145,6 +145,57 @@ public class App {
             System.out.println(menu);
         }
     }
+    
+    private static void modifierContact() throws FileNotFoundException, IOException, ParseException{
+        System.out.println("Saisir le nom du contact à modifier");
+        String nom = _scan.nextLine();
+        System.out.println("Saisir le prénom du contact à modifier");
+        String prenom = _scan.nextLine();
+        ArrayList<Contact> list = Contact.lister();
+        for (Contact contact : list) {
+            if (contact.getNom().equals(nom) && contact.getPrenom().equals(prenom)) {
+                Contact c = new Contact();
+                System.out.println("Saisir le nouveau nom");
+                c.setNom(_scan.nextLine());
+        
+                System.out.println("Saisir le nouveau prénom");
+                c.setPrenom(_scan.nextLine());
+        
+                while (true) {
+                    try {
+                        System.out.println("Saisir le nouveau mail");
+                        c.setMail(_scan.nextLine());
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+        
+                while (true) {
+                    try {
+                        System.out.println("Saisir le nouveau numéro de téléphone");
+                        c.setTelephone(_scan.nextLine());
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println("Mauvais téléphone!");
+                    }
+                }
+        
+                while (true) {
+                    try {
+                        System.out.println("Saisir la nouvelle date de naissance");
+                        c.setDateNaissance(_scan.nextLine());
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println("Mauvaise date de naissance!");
+                    }
+                }
+                contact.supprimer();
+                c.enregistrer();
+                System.out.println("Contact modifié");
+            }
+        }
+    }
 
     private static void supprimerContact() throws IOException, ParseException {
         System.out.println("Saisir le nom du contact à supprimer");
