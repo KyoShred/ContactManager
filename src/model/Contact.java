@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Comparator;
 
 public class Contact {
     private static final String SEPARATEUR = ";";
@@ -116,14 +117,6 @@ public class Contact {
         return list;
     }
 
-    public int compareTo(Contact contact2) {
-        int comp = getNom().compareTo(contact2.getNom());
-        if (comp == 0) {
-            comp = getPrenom().compareTo(contact2.getPrenom());
-        }
-        return comp;
-    }
-
     public static void sortByNameAndFirstName(ArrayList<Contact> contacts) {
         Collections.sort(contacts, (contact1, contact2) -> {
             int comp = contact1.getNom().compareTo(contact2.getNom());
@@ -132,6 +125,10 @@ public class Contact {
             }
             return comp;
         });
+    }
+    public static void sortByEmail(ArrayList<Contact> contacts) {
+        contact_mail mail = new contact_mail();
+        Collections.sort(contacts, mail);
     }
 
     public void supprimer() throws FileNotFoundException, IOException, ParseException {
@@ -161,6 +158,67 @@ public class Contact {
             }
         }
     }
+    
+    public void modifier() throws FileNotFoundException, IOException, ParseException {
+        ArrayList<Contact> list = new ArrayList<>();
+        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
+            String ligne = buf.readLine();
+            while (ligne != null) {
+                String[] tab = ligne.split(SEPARATEUR);
+                Contact c = new Contact();
+                c.setNom(tab[0]);
+                c.setPrenom(tab[1]);
+                c.setMail(tab[2]);
+                c.setTelephone(tab[3]);
+                c.setDateNaissance(tab[4]);
+                list.add(c);
+                ligne = buf.readLine();
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getNom().equals(this.getNom()) && list.get(i).getPrenom().equals(this.getPrenom())) {
+                list.remove(i);
+            }
+        }
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (int i = 0; i < list.size(); i++) {
+                pw2.println(list.get(i).toString());
+            }
+        }
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", true)))) {
+            pw2.println(this.toString());
+        }
+    }
+    
+    public void trierdate() throws FileNotFoundException, IOException, ParseException {
+        ArrayList<Contact> list = new ArrayList<>();
+        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
+            String ligne = buf.readLine();
+            while (ligne != null) {
+                String[] tab = ligne.split(SEPARATEUR);
+                Contact c = new Contact();
+                c.setNom(tab[0]);
+                c.setPrenom(tab[1]);
+                c.setMail(tab[2]);
+                c.setTelephone(tab[3]);
+                c.setDateNaissance(tab[4]);
+                list.add(c);
+                ligne = buf.readLine();
+            }
+        }
+        Collections.sort(list, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                return o1.getDateNaissance().compareTo(o2.getDateNaissance());
+            }
+        });
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (int i = 0; i < list.size(); i++) {
+                pw2.println(list.get(i).toString());
+            }
+        }
+    }
+
 
     @Override
     public String toString() {

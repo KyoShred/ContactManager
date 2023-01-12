@@ -2,8 +2,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import model.Contact;
 
@@ -27,7 +29,7 @@ public class App {
                     rechercherContact();
                     break;
                 case "4":
-                    // modifierContact();
+                    modifierContact();
                     break;
                 case "5":
                     supprimerContact();
@@ -49,15 +51,23 @@ public class App {
             switch (choix) {
                 case "1":
                     Contact.sortByNameAndFirstName(list);
+                    for (Contact contact : list) {
+                        System.out.println(contact.getNom() + " " + contact.getPrenom());
+                    }
                     break;
                 case "2":
+                    Contact.sortByEmail(list);
+                    for (Contact contact : list){
+                        System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getMail());
+                    }
                     break;
                 case "3":
+                    trierDate();
+                    for (Contact contact : list) {
+                        System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getDateNaissance());
+                    }
                     break;
-            }
-            for (Contact contact : list) {
-                System.out.println(contact.getNom() + " " + contact.getPrenom());
-            }
+            }     
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -142,6 +152,57 @@ public class App {
             System.out.println(menu);
         }
     }
+    
+    private static void modifierContact() throws FileNotFoundException, IOException, ParseException{
+        System.out.println("Saisir le nom du contact à modifier");
+        String nom = _scan.nextLine();
+        System.out.println("Saisir le prénom du contact à modifier");
+        String prenom = _scan.nextLine();
+        ArrayList<Contact> list = Contact.lister();
+        for (Contact contact : list) {
+            if (contact.getNom().equals(nom) && contact.getPrenom().equals(prenom)) {
+                Contact c = new Contact();
+                System.out.println("Saisir le nouveau nom");
+                c.setNom(_scan.nextLine());
+        
+                System.out.println("Saisir le nouveau prénom");
+                c.setPrenom(_scan.nextLine());
+        
+                while (true) {
+                    try {
+                        System.out.println("Saisir le nouveau mail");
+                        c.setMail(_scan.nextLine());
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+        
+                while (true) {
+                    try {
+                        System.out.println("Saisir le nouveau numéro de téléphone");
+                        c.setTelephone(_scan.nextLine());
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println("Mauvais téléphone!");
+                    }
+                }
+        
+                while (true) {
+                    try {
+                        System.out.println("Saisir la nouvelle date de naissance");
+                        c.setDateNaissance(_scan.nextLine());
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println("Mauvaise date de naissance!");
+                    }
+                }
+                contact.supprimer();
+                c.enregistrer();
+                System.out.println("Contact modifié");
+            }
+        }
+    }
 
     private static void supprimerContact() throws IOException, ParseException {
         System.out.println("Saisir le nom du contact à supprimer");
@@ -161,6 +222,21 @@ public class App {
             }
         }
         System.out.println("Contact non trouvé");
+    }
+
+    private static void trierDate() {
+        ArrayList<Contact> list;
+        try {
+            list = Contact.lister();
+            Collections.sort(list, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact o1, Contact o2) {
+                    return o1.getDateNaissance().compareTo(o2.getDateNaissance());
+                }
+            });
+        } catch (Exception e) {
+        }
+
     }
 
 }
