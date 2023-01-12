@@ -95,19 +95,20 @@ public class App {
 
     }
     private static void rechercherContact() throws FileNotFoundException, IOException, ParseException {
-        System.out.println("Saisir le prénom");
-        String prenom = _scan.nextLine();
-        ArrayList<Contact> list = Contact.lister();
-        ArrayList<Contact> filteredList = (ArrayList<Contact>) list.stream()
-                                .filter(c -> c.getPrenom().toLowerCase().contains(prenom.toLowerCase()))
+        
+            System.out.println("Saisir le prénom");
+    String prenom = _scan.nextLine();
+    ArrayList<Contact> list = Contact.lister();
+    ArrayList<Contact> filteredList = (ArrayList<Contact>) list.stream()
+                                .filter(c -> c.getPrenom().startsWith(prenom))
                                 .collect(Collectors.toList());
-        if(filteredList.isEmpty()){
-            System.out.println("Aucun contact trouvé avec ce prénom");
-        }else{
-            for (Contact contact : filteredList) {
-                System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " " + contact.getMail());
-            }
+    if(filteredList.isEmpty()){
+        System.out.println("Aucun contact trouvé avec ce prénom");
+    }else{
+        for (Contact contact : filteredList) {
+            System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " " + contact.getMail());
         }
+    }
     }
 
     private static void afficherMenu() {
