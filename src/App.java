@@ -54,6 +54,7 @@ public class App {
                     Contact.sortByEmail(list);
                     break;
                 case "3":
+                    trierDate();
                     break;
             }
             for (Contact contact : list) {
