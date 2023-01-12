@@ -27,7 +27,7 @@ public class App {
                     rechercherContact();
                     break;
                 case "4":
-                    // modifierContact();
+                    //modifierContact();
                     break;
                 case "5":
                     supprimerContact();
@@ -51,6 +51,7 @@ public class App {
                     Contact.sortByNameAndFirstName(list);
                     break;
                 case "2":
+                    Contact.sortByEmail(list);
                     break;
                 case "3":
                     break;

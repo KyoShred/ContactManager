@@ -133,6 +133,10 @@ public class Contact {
             return comp;
         });
     }
+    public static void sortByEmail(ArrayList<Contact> contacts) {
+        contact_mail mail = new contact_mail();
+        Collections.sort(contacts, mail);
+    }
 
     public void supprimer() throws FileNotFoundException, IOException, ParseException {
         ArrayList<Contact> list = new ArrayList<>();
