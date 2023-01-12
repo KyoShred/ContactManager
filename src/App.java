@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -9,17 +10,53 @@ public class App {
 
     private static Scanner _scan = new Scanner(System.in);
 
+    public static void main(String[] args) throws Exception {
+
+        while (true) {
+            afficherMenu();
+            String choix = _scan.nextLine();
+            switch (choix) {
+                case "1":
+                    ajouterContact();
+                    break;
+                case "2":
+                    listerContacts();
+                    break;
+                case "3":
+                    //modifierContact();
+                    break;
+                case "4":
+                    supprimerContact();
+                    break;
+                case "q":
+                    return;
+                default:
+                    System.out.println("Boulet !!!");
+                    break;
+            }
+        }
+    }
+
+    public static void listerContacts() {
+        try {
+            ArrayList<Contact> list = Contact.lister();
+            Contact.sortByNameAndFirstName(list);
+            for (Contact contact : list) {
+                System.out.println(contact.getNom() + " " + contact.getPrenom());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private static void ajouterContact() throws IOException {
-        Contact c = new Contact(0, null, null, null, null, null);
-        int id = Contact.getId() + 1;
-        c.setId(Integer.valueOf(id));
+        Contact c = new Contact();
         System.out.println("Saisir le nom");
         c.setNom(_scan.nextLine());
-    
+
         System.out.println("Saisir le prénom");
         c.setPrenom(_scan.nextLine());
-    
+
         while (true) {
             try {
                 System.out.println("Saisir le mail");
@@ -29,7 +66,7 @@ public class App {
                 System.out.println(e.getMessage());
             }
         }
-    
+
         while (true) {
             try {
                 System.out.println("Saisir le téléphone");
@@ -39,7 +76,7 @@ public class App {
                 System.out.println("Mauvais téléphone!");
             }
         }
-    
+
         while (true) {
             try {
                 System.out.println("Saisir la date de naissance");
@@ -51,10 +88,10 @@ public class App {
         }
         c.enregistrer();
         System.out.println("Contact enregistré");
-    
+
     }
 
-    public static void afficherMenu(){
+    private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Ajouter un contact");
@@ -66,31 +103,23 @@ public class App {
             System.out.println(menu);
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        String choix;
-        do {
-            afficherMenu();
-            choix = _scan.nextLine();
-            switch (choix) {
-                case "1":
-                    ajouterContact();
-                    break;
-                case "2":
-                    Contact.lister();
-                    break;
-                // case "3":
-                //     Contact.modifier();
-                //     break;
-                // case "4":
-                //     Contact.supprimer();
-                //     break;
-                case "q":
-                    break;
-                default:
-                    System.out.println("Choix incorrect!");
-                    break;
+    private static void supprimerContact() throws IOException, ParseException {
+        System.out.println("Saisir le nom du contact à supprimer");
+        String nom = _scan.nextLine();
+        System.out.println("Saisir le prénom du contact à supprimer");
+        String prenom = _scan.nextLine();
+        ArrayList<Contact> list = Contact.lister();
+        for (Contact contact : list) {
+            if (contact.getNom().equals(nom) && contact.getPrenom().equals(prenom)) {
+                try {
+                    contact.supprimer();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Contact supprimé");
+                return;
             }
-        } while (!choix.equals("q"));
+        }
+        System.out.println("Contact non trouvé");
     }
 }
