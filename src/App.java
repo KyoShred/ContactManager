@@ -51,15 +51,15 @@ public class App {
 
     private static void ajouterContact() throws IOException {
         Contact c = new Contact();
-        System.out.println("Saisir le nom");
+        System.out.println("\nSaisir le nom");
         c.setNom(_scan.nextLine());
 
-        System.out.println("Saisir le prénom");
+        System.out.println("\nSaisir le prénom");
         c.setPrenom(_scan.nextLine());
 
         while (true) {
             try {
-                System.out.println("Saisir le mail");
+                System.out.println("\nSaisir le mail");
                 c.setMail(_scan.nextLine());
                 break;
             } catch (ParseException e) {
@@ -69,7 +69,7 @@ public class App {
 
         while (true) {
             try {
-                System.out.println("Saisir le téléphone");
+                System.out.println("\nSaisir le téléphone");
                 c.setTelephone(_scan.nextLine());
                 break;
             } catch (ParseException e) {
@@ -79,7 +79,7 @@ public class App {
 
         while (true) {
             try {
-                System.out.println("Saisir la date de naissance");
+                System.out.println("\nSaisir la date de naissance (jj/mm/aaaa)");
                 c.setDateNaissance(_scan.nextLine());
                 break;
             } catch (ParseException e) {
