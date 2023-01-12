@@ -114,13 +114,13 @@ public class App {
 
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
-        menus.add("-- MENU --");
-        menus.add("1- Ajouter un contact");
-        menus.add("2- Lister les contacts");
-        menus.add("3- Recherche contact");
-        menus.add("4- Modifier un contact");
-        menus.add("5- Supprimer un contact");
-        menus.add("q- Quitter");
+        menus.add("⥤ MENU ⥢");
+        menus.add("1- ⌈Ajouter un contact⌋");
+        menus.add("2- ⌈Lister les contacts⌋");
+        menus.add("3- ⌈Recherche contact⌋");
+        menus.add("4- ⌈Modifier un contact⌋");
+        menus.add("5- ⌈Supprimer un contact⌋");
+        menus.add("q- ⌈Quitter");
         for (String menu : menus) {
             System.out.println(menu);
         }
