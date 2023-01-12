@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,14 +117,6 @@ public class Contact {
         return list;
     }
 
-    public int compareTo(Contact contact2) {
-        int comp = getNom().compareTo(contact2.getNom());
-        if (comp == 0) {
-            comp = getPrenom().compareTo(contact2.getPrenom());
-        }
-        return comp;
-    }
-
     public static void sortByNameAndFirstName(ArrayList<Contact> contacts) {
         Collections.sort(contacts, (contact1, contact2) -> {
             int comp = contact1.getNom().compareTo(contact2.getNom());
@@ -132,6 +125,10 @@ public class Contact {
             }
             return comp;
         });
+    }
+    public static void sortByEmail(ArrayList<Contact> contacts) {
+        contact_mail mail = new contact_mail();
+        Collections.sort(contacts, mail);
     }
 
     public void supprimer() throws FileNotFoundException, IOException, ParseException {

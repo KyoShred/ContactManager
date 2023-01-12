@@ -51,6 +51,7 @@ public class App {
                     Contact.sortByNameAndFirstName(list);
                     break;
                 case "2":
+                    Contact.sortByEmail(list);
                     break;
                 case "3":
                     break;
