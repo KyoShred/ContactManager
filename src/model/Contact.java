@@ -116,14 +116,6 @@ public class Contact {
         return list;
     }
 
-    public int compareTo(Contact contact2) {
-        int comp = getNom().compareTo(contact2.getNom());
-        if (comp == 0) {
-            comp = getPrenom().compareTo(contact2.getPrenom());
-        }
-        return comp;
-    }
-
     public static void sortByNameAndFirstName(ArrayList<Contact> contacts) {
         Collections.sort(contacts, (contact1, contact2) -> {
             int comp = contact1.getNom().compareTo(contact2.getNom());
