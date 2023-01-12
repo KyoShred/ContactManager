@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import model.Contact;
 
@@ -41,9 +42,19 @@ public class App {
     }
 
     private static void listerContacts() {
+        System.out.println("trier ? 1- par nom, 2- par mail, 3- par date de naissance");
+        String choix = _scan.nextLine();
         try {
             ArrayList<Contact> list = Contact.lister();
-
+            switch (choix) {
+                case "1":
+                    Contact.sortByNameAndFirstName(list);
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+            }
             for (Contact contact : list) {
                 System.out.println(contact.getNom() + " " + contact.getPrenom());
             }
@@ -94,28 +105,32 @@ public class App {
 
     }
 
-    private static void rechercherContact() {
+    private static void rechercherContact() throws FileNotFoundException, IOException, ParseException {
         System.out.println("Saisir le prénom");
         String prenom = _scan.nextLine();
-        try {
-            ArrayList<Contact> list = Contact.rechercher(prenom);
-            for (Contact contact : list) {
-                System.out.println(contact.getNom() + " " + contact.getPrenom());
+        ArrayList<Contact> list = Contact.lister();
+        ArrayList<Contact> filteredList = (ArrayList<Contact>) list.stream()
+                .filter(c -> c.getPrenom().startsWith(prenom))
+                .collect(Collectors.toList());
+        if (filteredList.isEmpty()) {
+            System.out.println("Aucun contact trouvé avec ce prénom");
+        } else {
+            for (Contact contact : filteredList) {
+                System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " "
+                        + contact.getMail());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
-        menus.add("-- MENU --");
-        menus.add("1- Ajouter un contact");
-        menus.add("2- Lister les contacts");
-        menus.add("3- Rercherche par prénom");
-        menus.add("4- Modifier un contact");
-        menus.add("5- Supprimer un contact");
-        menus.add("q- Quitter");
+        menus.add("        ⥤ MENU ⥢");
+        menus.add("1- ⌈Ajouter un contact⌋");
+        menus.add("2- ⌈Lister les contacts⌋");
+        menus.add("3- ⌈Rechercher contact⌋");
+        menus.add("4- ⌈Modifier un contact⌋");
+        menus.add("5- ⌈Supprimer un contact⌋");
+        menus.add("q- ⌈Quitter⌋");
         for (String menu : menus) {
             System.out.println(menu);
         }
@@ -140,4 +155,5 @@ public class App {
         }
         System.out.println("Contact non trouvé");
     }
+
 }
