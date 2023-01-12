@@ -29,7 +29,7 @@ public class App {
                     rechercherContact();
                     break;
                 case "4":
-                    // modifierContact();
+                    modifierContact();
                     break;
                 case "5":
                     supprimerContact();
