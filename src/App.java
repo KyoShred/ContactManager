@@ -42,9 +42,19 @@ public class App {
     }
 
     private static void listerContacts() {
+        System.out.println("trier ? 1- par nom, 2- par mail, 3- par date de naissance");
+        String choix = _scan.nextLine();
         try {
             ArrayList<Contact> list = Contact.lister();
-
+            switch (choix) {
+                case "1":
+                    Contact.sortByNameAndFirstName(list);
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+            }
             for (Contact contact : list) {
                 System.out.println(contact.getNom() + " " + contact.getPrenom());
             }
