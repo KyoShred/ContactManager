@@ -157,6 +157,35 @@ public class Contact {
             }
         }
     }
+    
+    public void trierdate() throws FileNotFoundException, IOException, ParseException {
+        ArrayList<Contact> list = new ArrayList<>();
+        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
+            String ligne = buf.readLine();
+            while (ligne != null) {
+                String[] tab = ligne.split(SEPARATEUR);
+                Contact c = new Contact();
+                c.setNom(tab[0]);
+                c.setPrenom(tab[1]);
+                c.setMail(tab[2]);
+                c.setTelephone(tab[3]);
+                c.setDateNaissance(tab[4]);
+                list.add(c);
+                ligne = buf.readLine();
+            }
+        }
+        Collections.sort(list, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                return o1.getDateNaissance().compareTo(o2.getDateNaissance());
+            }
+        });
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (int i = 0; i < list.size(); i++) {
+                pw2.println(list.get(i).toString());
+            }
+        }
+    }
 
 
     @Override
