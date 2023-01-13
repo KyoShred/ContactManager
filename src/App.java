@@ -44,7 +44,7 @@ public class App {
     }
 
     private static void listerContacts() {
-        System.out.println("trier ? 1- par nom, 2- par mail, 3- par date de naissance");
+        System.out.println("trier ? \n1- ⌈par nom⌋ \n2- ⌈par mail⌋ \n3- ⌈par date de naissance⌋");
         String choix = _scan.nextLine();
         try {
             ArrayList<Contact> list = Contact.lister();
