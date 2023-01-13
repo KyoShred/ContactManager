@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Collections;
 
 public class Contact {
     private static final String SEPARATEUR = ";";
@@ -120,6 +121,24 @@ public class Contact {
             for (Contact c : list) {
                 if (!c.getNom().equals(nom) || !c.getPrenom().equals(prenom)) {
                     pw.println(c.toString());
+                }
+            }
+        }
+    }
+
+    /**
+     * @param nom
+     * @param prenom
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static void trier(String nom, String prenom) throws FileNotFoundException, IOException {
+        ArrayList<Contact> list = new ArrayList<>();
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (Contact c : list) {
+                if (!c.getNom().equals(nom) || !c.getPrenom().equals(prenom)) {
+                    pw.println(c.toString());
+                    Collections.sort(list);
                 }
             }
         }
