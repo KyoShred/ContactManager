@@ -44,7 +44,7 @@ public class App {
     }
 
     private static void listerContacts() {
-        System.out.println("trier ? \n1- ⌈par nom⌋ \n2- ⌈par mail⌋ \n3- ⌈par date de naissance⌋");
+        System.out.println("\u27E5 trier ? \u27E4 \033[m\n1- \033[32m⌈par nom⌋\033[30m \033[m\n2- \033[32m⌈par mail⌋\033[30m \033[m\n3- \033[32m⌈par date de naissance⌋\033[30m");
         String choix = _scan.nextLine();
         try {
             ArrayList<Contact> list = Contact.lister();
@@ -72,15 +72,15 @@ public class App {
 
     private static void ajouterContact() throws IOException {
         Contact c = new Contact();
-        System.out.println("Saisir le nom");
+        System.out.println("\033[32m⌈Saisir le nom⌋\033");
         c.setNom(_scan.nextLine());
 
-        System.out.println("Saisir le prénom");
+        System.out.println("\033[32m⌈Saisir le prénom⌋\033");
         c.setPrenom(_scan.nextLine());
 
         while (true) {
             try {
-                System.out.println("Saisir le mail");
+                System.out.println("\033[32m⌈Saisir le mail⌋\033");
                 c.setMail(_scan.nextLine());
                 break;
             } catch (ParseException e) {
@@ -90,37 +90,37 @@ public class App {
 
         while (true) {
             try {
-                System.out.println("Saisir le téléphone");
+                System.out.println("\033[32m⌈Saisir le téléphone⌋\033");
                 c.setTelephone(_scan.nextLine());
                 break;
             } catch (ParseException e) {
-                System.out.println("Mauvais téléphone!");
+                System.out.println("\033[31m⌈Mauvais téléphone!⌋\033");
             }
         }
 
         while (true) {
             try {
-                System.out.println("Saisir la date de naissance");
+                System.out.println("\033[32m⌈Saisir la date de naissance⌋\033");
                 c.setDateNaissance(_scan.nextLine());
                 break;
             } catch (ParseException e) {
-                System.out.println("Mauvaise date de naissance!");
+                System.out.println("\033[31m⌈Mauvaise date de naissance!⌋\033");
             }
         }
         c.enregistrer();
-        System.out.println("Contact enregistré");
+        System.out.println("\033[32m⌈Contact enregistré⌋\033");
 
     }
 
     private static void rechercherContact() throws FileNotFoundException, IOException, ParseException {
-        System.out.println("Saisir le prénom");
+        System.out.println("\033[32m⌈Saisir le prénom⌋\033");
         String prenom = _scan.nextLine();
         ArrayList<Contact> list = Contact.lister();
         ArrayList<Contact> filteredList = (ArrayList<Contact>) list.stream()
                 .filter(c -> c.getPrenom().startsWith(prenom))
                 .collect(Collectors.toList());
         if (filteredList.isEmpty()) {
-            System.out.println("Aucun contact trouvé avec ce prénom");
+            System.out.println("\033[31m⌈Aucun contact trouvé avec ce prénom⌋\033");
         } else {
             for (Contact contact : filteredList) {
                 System.out.println(contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " "
@@ -144,23 +144,23 @@ public class App {
     }
     
     private static void modifierContact() throws FileNotFoundException, IOException, ParseException{
-        System.out.println("Saisir le nom du contact à modifier");
+        System.out.println("\033[32m⌈Saisir le nom du contact à modifier⌋\033");
         String nom = _scan.nextLine();
-        System.out.println("Saisir le prénom du contact à modifier");
+        System.out.println("\033[32m⌈Saisir le prénom du contact à modifier⌋\033");
         String prenom = _scan.nextLine();
         ArrayList<Contact> list = Contact.lister();
         for (Contact contact : list) {
             if (contact.getNom().equals(nom) && contact.getPrenom().equals(prenom)) {
                 Contact c = new Contact();
-                System.out.println("Saisir le nouveau nom");
+                System.out.println("\033[32m⌈Saisir le nouveau nom⌋\033");
                 c.setNom(_scan.nextLine());
         
-                System.out.println("Saisir le nouveau prénom");
+                System.out.println("\033[32m⌈Saisir le nouveau prénom⌋\033");
                 c.setPrenom(_scan.nextLine());
         
                 while (true) {
                     try {
-                        System.out.println("Saisir le nouveau mail");
+                        System.out.println("\033[32m⌈Saisir le nouveau mail⌋\033");
                         c.setMail(_scan.nextLine());
                         break;
                     } catch (ParseException e) {
@@ -170,34 +170,34 @@ public class App {
         
                 while (true) {
                     try {
-                        System.out.println("Saisir le nouveau numéro de téléphone");
+                        System.out.println("\033[32m⌈Saisir le nouveau numéro de téléphone⌋\033");
                         c.setTelephone(_scan.nextLine());
                         break;
                     } catch (ParseException e) {
-                        System.out.println("Mauvais téléphone!");
+                        System.out.println("\033[31m⌈Mauvais téléphone!⌋\033");
                     }
                 }
         
                 while (true) {
                     try {
-                        System.out.println("Saisir la nouvelle date de naissance");
+                        System.out.println("\033[32m⌈Saisir la nouvelle date de naissance⌋\033");
                         c.setDateNaissance(_scan.nextLine());
                         break;
                     } catch (ParseException e) {
-                        System.out.println("Mauvaise date de naissance!");
+                        System.out.println("\033[31m⌈Mauvaise date de naissance!⌋\033");
                     }
                 }
                 contact.supprimer();
                 c.enregistrer();
-                System.out.println("Contact modifié");
+                System.out.println("\033[32m⌈Contact modifié⌋\033");
             }
         }
     }
 
     private static void supprimerContact() throws IOException, ParseException {
-        System.out.println("Saisir le nom du contact à supprimer");
+        System.out.println("\033[32m⌈Saisir le nom du contact à supprimer⌋\033");
         String nom = _scan.nextLine();
-        System.out.println("Saisir le prénom du contact à supprimer");
+        System.out.println("\033[32m⌈Saisir le prénom du contact à supprimer⌋\033");
         String prenom = _scan.nextLine();
         ArrayList<Contact> list = Contact.lister();
         for (Contact contact : list) {
@@ -207,11 +207,11 @@ public class App {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Contact supprimé");
+                System.out.println("\033[32m⌈Contact supprimé⌋\033");
                 return;
             }
         }
-        System.out.println("Contact non trouvé");
+        System.out.println("\033[31m⌈Contact non trouvé⌋\033");
     }
 
     private static void trierDate() throws FileNotFoundException, IOException, ParseException {
