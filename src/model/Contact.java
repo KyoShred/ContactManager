@@ -10,10 +10,11 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Collections;
+import java.util.Comparator;
 
 public class Contact {
     private static final String SEPARATEUR = ";";
@@ -115,34 +116,80 @@ public class Contact {
         }
         return list;
     }
-    public static void supprimer(String nom, String prenom) throws FileNotFoundException, IOException {
-        ArrayList<Contact> list = new ArrayList<>();
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
-            for (Contact c : list) {
-                if (!c.getNom().equals(nom) || !c.getPrenom().equals(prenom)) {
-                    pw.println(c.toString());
-                }
+
+    public static void sortByNameAndFirstName(ArrayList<Contact> contacts) {
+        Collections.sort(contacts, (contact1, contact2) -> {
+            int comp = contact1.getNom().compareTo(contact2.getNom());
+            if (comp == 0) {
+                comp = contact1.getPrenom().compareTo(contact2.getPrenom());
             }
-        }
+            return comp;
+        });
+    }
+    public static void sortByEmail(ArrayList<Contact> contacts) {
+        contact_mail mail = new contact_mail();
+        Collections.sort(contacts, mail);
     }
 
-    /**
-     * @param nom
-     * @param prenom
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    public static void trier(String nom, String prenom) throws FileNotFoundException, IOException {
+    public void supprimer() throws FileNotFoundException, IOException, ParseException {
         ArrayList<Contact> list = new ArrayList<>();
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
-            for (Contact c : list) {
-                if (!c.getNom().equals(nom) || !c.getPrenom().equals(prenom)) {
-                    pw.println(c.toString());
-                    Collections.sort(list);
-                }
+        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
+            String ligne = buf.readLine();
+            while (ligne != null) {
+                String[] tab = ligne.split(SEPARATEUR);
+                Contact c = new Contact();
+                c.setNom(tab[0]);
+                c.setPrenom(tab[1]);
+                c.setMail(tab[2]);
+                c.setTelephone(tab[3]);
+                c.setDateNaissance(tab[4]);
+                list.add(c);
+                ligne = buf.readLine();
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getNom().equals(this.getNom()) && list.get(i).getPrenom().equals(this.getPrenom())) {
+                list.remove(i);
+            }
+        }
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (int i = 0; i < list.size(); i++) {
+                pw2.println(list.get(i).toString());
             }
         }
     }
+    
+    public void modifier() throws FileNotFoundException, IOException, ParseException {
+        ArrayList<Contact> list = new ArrayList<>();
+        try (BufferedReader buf = new BufferedReader(new FileReader("contacts.csv"))) {
+            String ligne = buf.readLine();
+            while (ligne != null) {
+                String[] tab = ligne.split(SEPARATEUR);
+                Contact c = new Contact();
+                c.setNom(tab[0]);
+                c.setPrenom(tab[1]);
+                c.setMail(tab[2]);
+                c.setTelephone(tab[3]);
+                c.setDateNaissance(tab[4]);
+                list.add(c);
+                ligne = buf.readLine();
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getNom().equals(this.getNom()) && list.get(i).getPrenom().equals(this.getPrenom())) {
+                list.remove(i);
+            }
+        }
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", false)))) {
+            for (int i = 0; i < list.size(); i++) {
+                pw2.println(list.get(i).toString());
+            }
+        }
+        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter("contacts.csv", true)))) {
+            pw2.println(this.toString());
+        }
+    }
+    
 
     @Override
     public String toString() {
@@ -157,6 +204,10 @@ public class Contact {
         build.append(SEPARATEUR);
         build.append(this.getDateNaissance());
         return build.toString();
+    }
+
+    public static ArrayList<Contact> rechercher(String prenom2) {
+        return null;
     }
 
 }
