@@ -132,12 +132,12 @@ public class App {
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("\u27E5 MENU \u27E4");
-        menus.add("\033[30m1- \033[33m⌈Ajouter un contact⌋\033[30m");
-        menus.add("\033[30m2- \033[33m⌈Lister les contacts⌋\033[30m");
-        menus.add("\033[30m3- \033[33m⌈Recherche contact⌋\033[30m");
-        menus.add("\033[30m4- \033[33m⌈Modifier un contact⌋\033[30m");
-        menus.add("\033[30m5- \033[33m⌈Supprimer un contact⌋\033[30m");
-        menus.add("\033[30mq- \033[33m⌈Quitter\033[30m");
+        menus.add("\033[m1- \033[32m⌈Ajouter un contact⌋\033[30m");
+        menus.add("\033[m2- \033[32m⌈Lister les contacts⌋\033[30m");
+        menus.add("\033[m3- \033[32m⌈Recherche contact⌋\033[30m");
+        menus.add("\033[m4- \033[32m⌈Modifier un contact⌋\033[30m");
+        menus.add("\033[m5- \033[32m⌈Supprimer un contact⌋\033[30m");
+        menus.add("\033[mq- \033[31m⌈Quitter⌋\033[30m");
         for (String menu : menus) {
             System.out.println(menu);
         }
