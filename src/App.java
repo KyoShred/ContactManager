@@ -131,16 +131,16 @@ public class App {
             }
         }
     }
-
+    
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
-        menus.add("⥤ MENU ⥢");
-        menus.add("1- ⌈Ajouter un contact⌋");
-        menus.add("2- ⌈Lister les contacts⌋");
-        menus.add("3- ⌈Recherche contact⌋");
-        menus.add("4- ⌈Modifier un contact⌋");
-        menus.add("5- ⌈Supprimer un contact⌋");
-        menus.add("q- ⌈Quitter");
+        menus.add("\u27E5 MENU \u27E4");
+        menus.add("\033[30m1- \033[33m⌈Ajouter un contact⌋\033[30m");
+        menus.add("\033[30m2- \033[33m⌈Lister les contacts⌋\033[30m");
+        menus.add("\033[30m3- \033[33m⌈Recherche contact⌋\033[30m");
+        menus.add("\033[30m4- \033[33m⌈Modifier un contact⌋\033[30m");
+        menus.add("\033[30m5- \033[33m⌈Supprimer un contact⌋\033[30m");
+        menus.add("\033[30mq- \033[33m⌈Quitter\033[30m");
         for (String menu : menus) {
             System.out.println(menu);
         }
