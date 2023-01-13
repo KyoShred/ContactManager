@@ -44,7 +44,8 @@ public class App {
     }
 
     private static void listerContacts() {
-        System.out.println("\u27E5 trier ? \u27E4 \033[m\n1- \033[32m⌈par nom⌋\033[30m \033[m\n2- \033[32m⌈par mail⌋\033[30m \033[m\n3- \033[32m⌈par date de naissance⌋\033[37m");
+        System.out.println(
+                "\u27E5 trier ? \u27E4 \033[m\n1- \033[32m⌈par nom⌋\033[30m \033[m\n2- \033[32m⌈par mail⌋\033[30m \033[m\n3- \033[32m⌈par date de naissance⌋\033[37m");
         String choix = _scan.nextLine();
         try {
             ArrayList<Contact> list = Contact.lister();
@@ -52,19 +53,20 @@ public class App {
                 case "1":
                     Contact.sortByNameAndFirstName(list);
                     for (Contact contact : list) {
-                        System.out.println("\033[32m" + contact.getNom() + " " + contact.getPrenom() + "\033[37m");
+                        System.out.println("\033[33m" + contact.getNom() + " " + contact.getPrenom() + "\033[37m");
                     }
                     break;
                 case "2":
                     Contact.sortByEmail(list);
-                    for (Contact contact : list){
-                        System.out.println("\033[32m" + contact.getNom() + " " + contact.getPrenom() + " " + contact.getMail() + "\033[37m");
+                    for (Contact contact : list) {
+                        System.out.println("\033[33m" + contact.getNom() + " " + contact.getPrenom() + " "
+                                + contact.getMail() + "\033[37m");
                     }
                     break;
                 case "3":
                     trierDate();
                     break;
-            }     
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -123,15 +125,16 @@ public class App {
             System.out.println("\033[31m⌈Aucun contact trouvé avec ce prénom⌋\033[37m");
         } else {
             for (Contact contact : filteredList) {
-                System.out.println("\033[32m" + contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " "
-                        + contact.getMail() + "\033[37m");
+                System.out.println(
+                        "\033[32m" + contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " "
+                                + contact.getMail() + "\033[37m");
             }
         }
     }
-    
+
     private static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
-        menus.add("\u27E5 MENU \u27E4");
+        menus.add("       \u27E5  MENU \u27E4");
         menus.add("\033[m1- \033[32m⌈Ajouter un contact⌋\033[37m");
         menus.add("\033[m2- \033[32m⌈Lister les contacts⌋\033[37m");
         menus.add("\033[m3- \033[32m⌈Recherche contact⌋\033[37m");
@@ -142,8 +145,8 @@ public class App {
             System.out.println(menu);
         }
     }
-    
-    private static void modifierContact() throws FileNotFoundException, IOException, ParseException{
+
+    private static void modifierContact() throws FileNotFoundException, IOException, ParseException {
         System.out.println("\033[32m⌈Saisir le nom du contact à modifier⌋\033[37m");
         String nom = _scan.nextLine();
         System.out.println("\033[32m⌈Saisir le prénom du contact à modifier⌋\033[37m");
@@ -154,10 +157,10 @@ public class App {
                 Contact c = new Contact();
                 System.out.println("\033[32m⌈Saisir le nouveau nom⌋\033[37m");
                 c.setNom(_scan.nextLine());
-        
+
                 System.out.println("\033[32m⌈Saisir le nouveau prénom⌋\033[37m");
                 c.setPrenom(_scan.nextLine());
-        
+
                 while (true) {
                     try {
                         System.out.println("\033[32m⌈Saisir le nouveau mail⌋\033[37m");
@@ -167,7 +170,7 @@ public class App {
                         System.out.println(e.getMessage());
                     }
                 }
-        
+
                 while (true) {
                     try {
                         System.out.println("\033[32m⌈Saisir le nouveau numéro de téléphone⌋\033[37m");
@@ -177,7 +180,7 @@ public class App {
                         System.out.println("\033[31m⌈Mauvais téléphone!⌋\033[37m");
                     }
                 }
-        
+
                 while (true) {
                     try {
                         System.out.println("\033[32m⌈Saisir la nouvelle date de naissance⌋\033[37m");
@@ -214,16 +217,23 @@ public class App {
         System.out.println("\033[31m⌈Contact non trouvé⌋\033[37m");
     }
 
-    private static void trierDate() throws FileNotFoundException, IOException, ParseException {
-        ArrayList<Contact> list = Contact.lister();
-        Collections.sort(list, new Comparator<Contact>() {
-            @Override
-            public int compare(Contact c1, Contact c2) {
-                return c1.getDateNaissance().compareTo(c2.getDateNaissance());
+    private static void trierDate() {
+        ArrayList<Contact> list;
+        try {
+            list = Contact.lister();
+            Collections.sort(list, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact o1, Contact o2) {
+                    return o1.getDateNaissance().compareTo(o2.getDateNaissance());
+                }
+            });
+            for (Contact contact : list) {
+                System.out.println("\033[33m" + contact.getNom() + " " + contact.getPrenom() + " " + contact.getDateNaissance() + "\033[37m");
             }
-        });
-        for (Contact contact : list) {
-            System.out.println("\033[32m" + contact.getNom() + " " + contact.getPrenom() + " " + contact.getTelephone() + " " + contact.getDateNaissance() + "\033[37m");
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
+
     }
 }
