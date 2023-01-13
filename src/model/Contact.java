@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Comparator;
 
 public class Contact {
     private static final String SEPARATEUR = ";";
